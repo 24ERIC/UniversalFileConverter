@@ -4,7 +4,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from PyPDF2 import PdfReader, PdfWriter, PageObject
 
-def create_watermark(text, font_path, filename="watermark.pdf"):
+def create_watermark(text, font_path, filename="temp.pdf"):
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
@@ -49,12 +49,12 @@ def add_watermark(input_pdf, output_pdf, watermark_pdf):
 
 # 自定义水印内容和字体路径
 watermark_text = "仅供某某资本参考，敬请保密"
-font_path = "simsun.ttc"  # 请将此路径替换为你的字体文件路径
+font_path = "../font/simsun.ttc"  # 请将此路径替换为你的字体文件路径
 create_watermark(watermark_text, font_path)
 
 # 输入和输出PDF文件
-input_pdf = "input.pdf"
-output_pdf = "output_with_watermark.pdf"
-watermark_pdf = "watermark.pdf"
+input_pdf = "in.pdf"
+output_pdf = "out.pdf"
+watermark_pdf = "temp.pdf"
 
 add_watermark(input_pdf, output_pdf, watermark_pdf)
