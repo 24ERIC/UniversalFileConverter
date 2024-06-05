@@ -1,0 +1,2 @@
+”“”tesseract 照片 stdout -l chi_sim --tessdata-dir /opt/homebrew/share/tessdata““”
+tesseract /Users/icer/Documents/GitHub/UniversalFileConverter/Dev/a.png stdout -l chi_sim --tessdata-dir /opt/homebrew/share/tessdata

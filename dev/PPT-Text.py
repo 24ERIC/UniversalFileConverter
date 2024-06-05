@@ -1,34 +1,27 @@
-import os
-from pdf2image import convert_from_path
 import pytesseract
+from PIL import Image
+import os
 
-# Path to the Tesseract executable
-pytesseract.pytesseract.tesseract_cmd = r'/opt/homebrew/bin/tesseract'
+# 设置Tesseract OCR的路径
+pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'
 
-# Set TESSDATA_PREFIX environment variable to the directory containing the tessdata directory
-os.environ['TESSDATA_PREFIX'] = r'/opt/homebrew/share/'
+# 确保TESSDATA_PREFIX环境变量正确设置
+tessdata_dir_config = '--tessdata-dir "/opt/homebrew/share/tessdata"'
+os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/'
 
-def extract_chinese_text_from_pdf(pdf_path):
-    images = convert_from_path(pdf_path)
-    chinese_texts = []
-
-    for page_number, image in enumerate(images, start=1):
-        print(f"Processing page {page_number}")
-        text = pytesseract.image_to_string(image, lang='chi_sim')  # Use 'chi_sim' for Simplified Chinese
-
-        # Filter Chinese text
-        for line in text.split('\n'):
-            if any('\u4e00' <= char <= '\u9fff' for char in line):
-                chinese_texts.append(line)
+def extract_text_from_image(image_path):
+    # 打开图像文件
+    img = Image.open(image_path)
     
-    return chinese_texts
+    # 使用Tesseract OCR提取文本
+    try:
+        text = pytesseract.image_to_string(img, lang='chi_sim', config=tessdata_dir_config)
+        return text
+    except pytesseract.TesseractError as e:
+        print("TesseractError:", e)
+        return ""
 
-pdf_path = '/Users/icer/Documents/GitHub/UniversalFileConverter/dev/in.pdf'  # Replace with your PDF file path
-chinese_texts = extract_chinese_text_from_pdf(pdf_path)
-
-# Print the extracted Chinese text
-for text in chinese_texts:
-    print(text)
-
-if not chinese_texts:
-    print("No Chinese text found in the PDF document.")
+# 示例：从本地图像文件中提取中文文本
+image_path = '/Users/icer/Documents/GitHub/UniversalFileConverter/Dev/a.png'  # 修改为实际图像文件路径
+extracted_text = extract_text_from_image(image_path)
+print("Extracted Text:", extracted_text)
