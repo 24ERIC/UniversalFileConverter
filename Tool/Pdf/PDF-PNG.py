@@ -17,4 +17,4 @@ def pdf_to_images(pdf_path, output_folder):
 if __name__ == '__main__':
     
     pdf_to_images("/Users/icer/Documents/GitHub/UniversalFileConverter/temp/a.pdf", "/Users/icer/Documents/GitHub/UniversalFileConverter/temp/b")
-    print(f"PDF pages have been converted and saved to {output_folder}")
+
